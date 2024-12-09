@@ -42,7 +42,7 @@
 
 ### 5. Визуализация контекста системы — диаграмма С4
 
-[C4 Context level diagram](./docs/asis.puml)
+![C4 Context level diagram](./docs/asis.png)
 
 # Задание 2. Проектирование микросервисной архитектуры
 
