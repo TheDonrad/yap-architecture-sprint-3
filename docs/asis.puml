@@ -1,0 +1,16 @@
+@startuml
+title WarmHouse Context Diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Пользователь системы управления отоплением")
+Person(admin, "Administrator", "Специалист, который подключает или удаляет датчики из системы")
+System(WarmHouseSystem, "WarmHouse System", "Система управления отоплением")
+
+System_Ext(sensors, "Heat sensors", "Датчики температуры")
+
+Rel(user, WarmHouseSystem, "Использует систему")
+Rel(admin, WarmHouseSystem, "Изменяет состав датчиков")
+Rel(WarmHouseSystem, sensors, "Запрашивает температуру")
+
+@enduml
