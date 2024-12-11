@@ -1,0 +1,53 @@
+@startuml
+
+skinparam linetype ortho
+
+entity "User" as User {
+  user_id
+  email
+  name
+  active
+}
+
+entity "House" as House {
+  house_id
+  user_id
+  address
+}
+
+entity "Device" as Device {
+  device_id
+  house_id
+  type_id
+  manufacturer_id
+  serial_number
+  status
+}
+
+entity "DeviceType" as DeviceType {
+  type_id
+  name
+}
+
+
+entity "Manufacturer" as Manufacturer {
+  manufacturer_id
+  name
+  api_params
+}
+
+
+entity "TelemetryData" as TelemetryData {
+  device_id
+  timestamp
+  telemetry_name
+  telemetry_value
+}
+
+User ||..|{ House
+Device ||..o| House
+Device ||..|| DeviceType
+Device ||..|| TelemetryData
+Device ||..|| Manufacturer
+
+@enduml
