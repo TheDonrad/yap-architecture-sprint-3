@@ -24,18 +24,33 @@ entity "Device" as Device {
   status
 }
 
+
+entity "Script" as Script {
+  script_id
+  house_id
+  status
+  steps
+}
+
+entity "ScriptStep" as ScriptStep {
+  step_id
+  step_order
+  script_id
+  device_id
+  step_type
+  step_params
+}
+
 entity "DeviceType" as DeviceType {
   type_id
   name
 }
 
-
-entity "Manufacturer" as Manufacturer {
+entity "Manufacturer (Производитель устройства)" as Manufacturer {
   manufacturer_id
   name
   api_params
 }
-
 
 entity "TelemetryData" as TelemetryData {
   device_id
@@ -44,10 +59,13 @@ entity "TelemetryData" as TelemetryData {
   telemetry_value
 }
 
-User ||..|{ House
+User }|..|{ House
 Device ||..o| House
 Device ||..|| DeviceType
 Device ||..|| TelemetryData
 Device ||..|| Manufacturer
+Script ||..|{ ScriptStep
+Script }o..o{ House
+Script }o..o{ DeviceType
 
 @enduml

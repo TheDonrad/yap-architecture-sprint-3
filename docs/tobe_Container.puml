@@ -11,6 +11,8 @@ System(WarmHouseSystem, "WarmHouse System", "Система управления
 Container_Boundary(WarmHouseSystem, "WarmHouse System") {
   Container(WebApp, "Web Application", "JS, React", "Изменение состава, управление и просмотр показателей устройств умного дома")
   Container(UserService, "User Service", "Golang", "Сервис управления пользвоателями")
+  Container(Scripts, "Scripts Service", "Golang", "Сервис управления сценариями")
+  Container(Houses, "Houses Service", "Golang", "Сервис управления домами")
   ContainerDb(UserDatabase, "User Database", "PostgreSQL", "Хранит информацию о пользователях")
   Container(Devices, "Devices", "Golang", "Управление устройствами умного дома")
   Container(DataBus, "Data Bus", "Kafka", "Шина данных")
@@ -21,9 +23,12 @@ Container_Boundary(WarmHouseSystem, "WarmHouse System") {
 System_Ext(api, "Smart devices API", "API устройств умного дома")
 
 Rel(user, WebApp, "Использует систему")
+Rel(Scripts, Devices, "Изменение состояний устройств")
 Rel(WebApp, UserService, "Создание и изменение пользователей")
+Rel(WebApp, Scripts, "Создание, изменение и удаление сценариев")
+Rel(WebApp, Houses, "Создание, изменение и удаление домов")
 Rel(UserService, UserDatabase, "Чтение\запись")
-Rel(WebApp, Devices, "Просмотр устройств и метрик")
+Rel(WebApp, Devices, "Просмотр и изменение устройств, просмотр метрик")
 Rel(WebApp, DataBus, "Добавление, изменение, удаление устройств")
 Rel(DataBus, Devices, "Передача данных от прочих сервисов")
 Rel(MetricsCollector, DataBus, "Обновление метрик устройств")
