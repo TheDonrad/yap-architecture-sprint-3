@@ -1,0 +1,38 @@
+@startuml
+title WarmHouse Container Diagram
+
+top to bottom direction
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Пользователь системы управления умным домом")
+System(WarmHouseSystem, "WarmHouse System", "Система управления умным домом")
+
+Container_Boundary(WarmHouseSystem, "WarmHouse System") {
+  Container(WebApp, "Web Application", "JS, React", "Изменение состава, управление и просмотр показателей устройств умного дома")
+  Container(UserService, "User Service", "Golang", "Сервис управления пользвоателями")
+  Container(Scripts, "Scripts Service", "Golang", "Сервис управления сценариями")
+  Container(Houses, "Houses Service", "Golang", "Сервис управления домами")
+  ContainerDb(UserDatabase, "User Database", "PostgreSQL", "Хранит информацию о пользователях")
+  Container(Devices, "Devices", "Golang", "Управление устройствами умного дома")
+  Container(DataBus, "Data Bus", "Kafka", "Шина данных")
+  Container(MetricsCollector, "Metrics Collector", "Golang", "Получает метрики с устройств умного дома")
+  ContainerDb(DevicesDatabase, "DevicesDatabase", "PostgreSQL", "Хранит информацию об умных устройствах, а также их метрики")
+}
+
+System_Ext(api, "Smart devices API", "API устройств умного дома")
+
+Rel(user, WebApp, "Использует систему")
+Rel(Scripts, Devices, "Изменение состояний устройств")
+Rel(WebApp, UserService, "Создание и изменение пользователей")
+Rel(WebApp, Scripts, "Создание, изменение и удаление сценариев")
+Rel(WebApp, Houses, "Создание, изменение и удаление домов")
+Rel(UserService, UserDatabase, "Чтение\запись")
+Rel(WebApp, Devices, "Просмотр и изменение устройств, просмотр метрик")
+Rel(WebApp, DataBus, "Добавление, изменение, удаление устройств")
+Rel(DataBus, Devices, "Передача данных от прочих сервисов")
+Rel(MetricsCollector, DataBus, "Обновление метрик устройств")
+Rel(Devices, DevicesDatabase, "Чтение\запись")
+Rel(Devices, api, "Управляет состоянием умных устройств")
+Rel(MetricsCollector, api, "Получает метрики умных устройств")
+@enduml
